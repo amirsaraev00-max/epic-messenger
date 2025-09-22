@@ -11,12 +11,14 @@
             background: linear-gradient(135deg, #1a1a2e, #16213e);
             height: 100vh;
             color: white;
+            overflow: hidden;
         }
         
         .screen { 
             display: none; 
             height: 100vh;
             padding: 20px;
+            overflow-y: auto;
         }
         .active { display: block; }
         
@@ -33,14 +35,17 @@
         .auth-tabs {
             display: flex;
             margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
         }
         
         .auth-tab {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
             background: rgba(255,255,255,0.1);
             cursor: pointer;
+            transition: background 0.3s;
         }
         
         .auth-tab.active {
@@ -76,6 +81,12 @@
             background: #666;
         }
         
+        .button-small {
+            width: auto;
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+        
         /* Главный экран */
         .header {
             display: flex;
@@ -101,6 +112,7 @@
             font-size: 20px;
             background-size: cover;
             background-position: center;
+            flex-shrink: 0;
         }
         
         .verified-badge {
@@ -120,16 +132,23 @@
         
         .header-info {
             flex: 1;
+            min-width: 0;
         }
         
         .username {
             font-weight: bold;
             font-size: 18px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         .user-handle {
             color: #ccc;
             font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         .dropdown-menu {
@@ -142,6 +161,7 @@
             min-width: 200px;
             z-index: 1000;
             display: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
         
         .menu-item {
@@ -151,6 +171,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: background 0.2s;
         }
         
         .menu-item:hover {
@@ -162,6 +183,8 @@
             background: rgba(255,255,255,0.05);
             border-radius: 10px;
             padding: 15px;
+            max-height: 70vh;
+            overflow-y: auto;
         }
         
         .chat-item {
@@ -171,10 +194,15 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: background 0.2s;
         }
         
         .chat-item:hover {
             background: rgba(255,255,255,0.1);
+        }
+        
+        .chat-item:last-child {
+            border-bottom: none;
         }
         
         .chat-avatar {
@@ -188,6 +216,20 @@
             font-weight: bold;
             background-size: cover;
             background-position: center;
+            flex-shrink: 0;
+        }
+        
+        .chat-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .chat-preview {
+            font-size: 13px;
+            opacity: 0.8;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         /* Экран чата */
@@ -209,6 +251,7 @@
             cursor: pointer;
             width: auto;
             padding: 10px;
+            flex-shrink: 0;
         }
         
         .messages-container {
@@ -224,8 +267,14 @@
             margin: 10px 0;
             padding: 10px 15px;
             border-radius: 15px;
-            max-width: 70%;
+            max-width: 80%;
             word-wrap: break-word;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .message-out {
@@ -239,7 +288,7 @@
         }
         
         .message-time {
-            font-size: 12px;
+            font-size: 11px;
             opacity: 0.7;
             margin-top: 5px;
         }
@@ -247,6 +296,10 @@
         .message-input {
             display: flex;
             gap: 10px;
+        }
+        
+        .message-input input {
+            flex: 1;
         }
         
         /* Поиск пользователей */
@@ -258,6 +311,8 @@
         
         .search-results {
             margin-top: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
         }
         
         .user-result {
@@ -267,6 +322,15 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            transition: background 0.2s;
+        }
+        
+        .user-result:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .user-result:last-child {
+            border-bottom: none;
         }
         
         /* Профиль */
@@ -304,6 +368,7 @@
             border-radius: 8px;
             margin: 15px 0;
             text-align: center;
+            word-break: break-all;
         }
         
         .avatar-options {
@@ -323,10 +388,16 @@
             align-items: center;
             justify-content: center;
             font-size: 20px;
+            transition: transform 0.2s;
+        }
+        
+        .avatar-option:hover {
+            transform: scale(1.1);
         }
         
         .avatar-option.selected {
             border-color: #667eea;
+            transform: scale(1.1);
         }
         
         .avatar-custom {
@@ -334,6 +405,7 @@
             font-size: 12px;
             text-align: center;
             padding: 5px;
+            flex-direction: column;
         }
         
         .profile-view {
@@ -342,6 +414,67 @@
         
         .profile-actions {
             margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 5px;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .screen {
+                padding: 10px;
+            }
+            
+            .auth-container {
+                margin: 20px auto;
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 10px;
+            }
+            
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .username {
+                font-size: 16px;
+            }
+            
+            .user-handle {
+                font-size: 12px;
+            }
+        }
+        
+        /* Скроллбар */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5a6fd8;
         }
     </style>
 </head>
@@ -350,6 +483,7 @@
     <div id="authScreen" class="screen active">
         <div class="auth-container">
             <h1 style="text-align: center; margin-bottom: 30px;">🚀 Epic Messenger</h1>
+            <p style="text-align: center; margin-bottom: 20px; opacity: 0.8;">Веб-версия мессенджера</p>
             
             <div class="auth-tabs">
                 <div class="auth-tab active" onclick="showAuthTab('login')">Вход</div>
@@ -362,16 +496,19 @@
                 <button onclick="login()">Войти</button>
                 <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; font-size: 14px;">
                     <strong>Тестовые аккаунты:</strong><br>
-                    BayRex: bayrex@epic.com / bayrex123<br>
-                    User: test@test.com / 123456
+                    👑 BayRex: bayrex@epic.com / bayrex123<br>
+                    😎 TestUser: test@test.com / 123456
                 </div>
             </div>
             
             <div id="registerForm" style="display: none;">
-                <input type="text" id="registerUsername" placeholder="Юзернейм (без @)" value="TestUser">
-                <input type="email" id="registerEmail" placeholder="Email" value="test@test.com">
+                <input type="text" id="registerUsername" placeholder="Юзернейм (без @)" value="NewUser">
+                <input type="email" id="registerEmail" placeholder="Email" value="new@user.com">
                 <input type="password" id="registerPassword" placeholder="Пароль" value="123456">
                 <button onclick="register()">Зарегистрироваться</button>
+                <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 5px; font-size: 12px; text-align: center;">
+                    💡 После регистрации найди пользователя <strong>@BayRex</strong> в поиске!
+                </div>
             </div>
         </div>
     </div>
@@ -391,20 +528,21 @@
             <div class="dropdown-menu" id="userMenu">
                 <div class="menu-item" onclick="showScreen('profileScreen')">👤 Мой профиль</div>
                 <div class="menu-item" onclick="showScreen('searchScreen')">🔍 Поиск пользователей</div>
+                <div class="menu-item" onclick="showScreen('helpScreen')">❓ Помощь</div>
                 <div class="menu-item" onclick="switchAccount()">🔄 Сменить аккаунт</div>
                 <div class="menu-item" onclick="logout()">🚪 Выйти</div>
             </div>
         </div>
         
         <div class="chats-list" id="chatsList">
-            <!-- Список чатов будет здесь -->
+            <div style="padding: 20px; text-align: center; opacity: 0.7;">Загрузка чатов...</div>
         </div>
     </div>
 
     <!-- Экран чата -->
     <div id="chatScreen" class="screen">
         <div class="chat-header">
-            <button class="back-button" onclick="showScreen('mainScreen')">← Назад</button>
+            <button class="back-button" onclick="showScreen('mainScreen')">←</button>
             <div class="user-avatar" id="chatUserAvatar" onclick="openUserProfile(currentChat)">U</div>
             <div style="flex: 1; cursor: pointer;" onclick="openUserProfile(currentChat)">
                 <div style="display: flex; align-items: center; gap: 5px;">
@@ -417,7 +555,7 @@
         </div>
         
         <div class="messages-container" id="messagesContainer">
-            <!-- Сообщения будут здесь -->
+            <div style="text-align: center; padding: 40px; opacity: 0.5;">Нет сообщений</div>
         </div>
         
         <div class="message-input">
@@ -429,18 +567,21 @@
     <!-- Поиск пользователей -->
     <div id="searchScreen" class="screen">
         <div class="header">
-            <button class="back-button" onclick="showScreen('mainScreen')">← Назад</button>
+            <button class="back-button" onclick="showScreen('mainScreen')">←</button>
             <div class="header-info">
                 <h2>🔍 Поиск пользователей</h2>
             </div>
         </div>
         
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Введите юзернейм..." onkeypress="handleSearchKeyPress(event)">
+            <input type="text" id="searchInput" placeholder="Введите юзернейм (например, BayRex)" onkeypress="handleSearchKeyPress(event)">
             <button onclick="searchUsers()">Искать</button>
             
             <div class="search-results" id="searchResults">
-                <!-- Результаты поиска -->
+                <div style="padding: 20px; text-align: center; opacity: 0.7;">
+                    🔍 Введите юзернейм для поиска<br>
+                    <small>Например: <strong>BayRex</strong> (создатель мессенджера)</small>
+                </div>
             </div>
         </div>
     </div>
@@ -448,7 +589,7 @@
     <!-- Мой профиль -->
     <div id="profileScreen" class="screen">
         <div class="header">
-            <button class="back-button" onclick="showScreen('mainScreen')">← Назад</button>
+            <button class="back-button" onclick="showScreen('mainScreen')">←</button>
             <div class="header-info">
                 <h2>👤 Мой профиль</h2>
             </div>
@@ -480,15 +621,15 @@
                 <span id="profileUserId" style="font-family: monospace; font-size: 16px;"></span>
             </div>
             
-            <button onclick="updateProfile()">Сохранить изменения</button>
-            <button onclick="showScreen('mainScreen')" class="button-secondary" style="margin-top: 10px;">Отмена</button>
+            <button onclick="updateProfile()">💾 Сохранить изменения</button>
+            <button onclick="showScreen('mainScreen')" class="button-secondary" style="margin-top: 10px;">❌ Отмена</button>
         </div>
     </div>
 
     <!-- Профиль собеседника -->
     <div id="userProfileScreen" class="screen">
         <div class="header">
-            <button class="back-button" onclick="showScreen('chatScreen')">← Назад</button>
+            <button class="back-button" onclick="showScreen('chatScreen')">←</button>
             <div class="header-info">
                 <h2>👤 Профиль пользователя</h2>
             </div>
@@ -515,50 +656,100 @@
         </div>
     </div>
 
+    <!-- Помощь -->
+    <div id="helpScreen" class="screen">
+        <div class="header">
+            <button class="back-button" onclick="showScreen('mainScreen')">←</button>
+            <div class="header-info">
+                <h2>❓ Помощь</h2>
+            </div>
+        </div>
+        
+        <div class="profile-container">
+            <h3>Как общаться с друзьями:</h3>
+            <div style="margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                <strong>1. 📧 Регистрация</strong><br>
+                - Каждый друг регистрируется со своим email
+            </div>
+            
+            <div style="margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                <strong>2. 🔍 Поиск</strong><br>
+                - Найди друга по юзернейму в поиске
+            </div>
+            
+            <div style="margin: 15px 0; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                <strong>3. 💬 Чат</strong><br>
+                - Начни общение в реальном времени
+            </div>
+            
+            <div style="margin: 20px 0; padding: 15px; background: rgba(255,215,0,0.1); border-radius: 8px; border-left: 4px solid gold;">
+                <strong>💡 Для общения с создателем:</strong><br>
+                - Найди пользователя <strong>@BayRex</strong> в поиске
+                - У него золотая галочка ✓
+            </div>
+            
+            <button onclick="showScreen('mainScreen')" class="button-secondary">Понятно!</button>
+        </div>
+    </div>
+
     <!-- Скрытый input для загрузки файлов -->
     <input type="file" id="realAvatarUpload" accept="image/*" style="display: none;">
 
     <script>
-        // БАЗА ДАННЫХ
+        // БАЗА ДАННЫХ ДЛЯ GITHUB PAGES
         let currentUser = null;
         let currentChat = null;
         let viewedUser = null;
         
+        // Уникальный идентификатор сессии для разделения данных разных пользователей
+        const SESSION_ID = 'epic_messenger_' + Math.random().toString(36).substr(2, 9);
+        
         // Загружаем данные при запуске
         function loadData() {
-            const saved = localStorage.getItem('epicMessengerData');
-            if (saved) {
-                const data = JSON.parse(saved);
-                window.users = data.users || {};
-                window.messages = data.messages || [];
-                window.currentUser = data.currentUser || null;
-                
-                if (window.currentUser) {
-                    currentUser = window.currentUser;
+            try {
+                const saved = sessionStorage.getItem(SESSION_ID);
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    window.users = data.users || {};
+                    window.messages = data.messages || [];
+                    window.currentUser = data.currentUser || null;
+                    
+                    if (window.currentUser) {
+                        currentUser = window.currentUser;
+                    }
+                } else {
+                    window.users = {};
+                    window.messages = [];
                 }
-            } else {
+                
+                createDefaultUsers();
+            } catch (error) {
+                console.error('Ошибка загрузки данных:', error);
                 window.users = {};
                 window.messages = [];
+                createDefaultUsers();
             }
-            
-            createTestUsers();
         }
         
-        function createTestUsers() {
+        // СОЗДАЕМ ДЕФОЛТНЫХ ПОЛЬЗОВАТЕЛЕЙ
+        function createDefaultUsers() {
+            // BayRex - создатель мессенджера
             if (!window.users['000000000']) {
                 window.users['000000000'] = {
                     id: '000000000',
                     username: 'BayRex',
                     email: 'bayrex@epic.com',
                     password: 'bayrex123',
-                    name: 'Главный разработчик',
+                    name: 'Создатель Epic Messenger',
                     avatar: '👑',
                     avatarType: 'emoji',
                     verified: true,
-                    isBayRex: true
+                    isBayRex: true,
+                    isOnline: true
                 };
             }
             
+            // Тестовый пользователь
             if (!window.users['testuser123']) {
                 window.users['testuser123'] = {
                     id: 'testuser123',
@@ -568,20 +759,27 @@
                     name: 'Тестовый пользователь',
                     avatar: '😎',
                     avatarType: 'emoji',
-                    verified: false
+                    verified: false,
+                    isOnline: true
                 };
             }
             
             saveData();
         }
         
+        // СОХРАНЯЕМ ДАННЫЕ В SESSIONSTORAGE
         function saveData() {
-            const data = {
-                users: window.users,
-                messages: window.messages,
-                currentUser: currentUser
-            };
-            localStorage.setItem('epicMessengerData', JSON.stringify(data));
+            try {
+                const data = {
+                    users: window.users,
+                    messages: window.messages,
+                    currentUser: currentUser,
+                    timestamp: Date.now()
+                };
+                sessionStorage.setItem(SESSION_ID, JSON.stringify(data));
+            } catch (error) {
+                console.error('Ошибка сохранения данных:', error);
+            }
         }
 
         // ИНИЦИАЛИЗАЦИЯ
@@ -589,7 +787,21 @@
             loadData();
             loadAvatarOptions();
             checkAuth();
+            updateOnlineStatus();
+            
+            // Обновляем онлайн статус каждые 30 секунд
+            setInterval(updateOnlineStatus, 30000);
         };
+
+        // ОБНОВЛЯЕМ СТАТУС ОНЛАЙН
+        function updateOnlineStatus() {
+            if (currentUser) {
+                currentUser.lastSeen = Date.now();
+                currentUser.isOnline = true;
+                window.users[currentUser.id] = currentUser;
+                saveData();
+            }
+        }
 
         // РЕГИСТРАЦИЯ
         async function register() {
@@ -598,19 +810,25 @@
             const password = document.getElementById('registerPassword').value;
             
             if (!username || !email || !password) {
-                return alert('Заполните все поля!');
+                return alert('❌ Заполните все поля!');
             }
             
-            if (username === 'BayRex') {
-                return alert('Юзернейм BayRex зарезервирован!');
+            if (username.length < 3) {
+                return alert('❌ Юзернейм должен быть не менее 3 символов!');
             }
             
+            // ПРОВЕРКА НА BAYREX
+            if (username.toLowerCase() === 'bayrex') {
+                return alert('❌ Юзернейм BayRex зарезервирован для создателя!');
+            }
+            
+            // Проверяем email и юзернейм
             for (const userId in window.users) {
                 if (window.users[userId].email === email) {
-                    return alert('Этот email уже зарегистрирован!');
+                    return alert('❌ Этот email уже зарегистрирован!');
                 }
-                if (window.users[userId].username === username) {
-                    return alert('Этот юзернейм уже занят!');
+                if (window.users[userId].username.toLowerCase() === username.toLowerCase()) {
+                    return alert('❌ Этот юзернейм уже занят!');
                 }
             }
             
@@ -623,15 +841,38 @@
                 avatar: '😀',
                 avatarType: 'emoji',
                 verified: false,
+                isOnline: true,
+                lastSeen: Date.now(),
                 createdAt: new Date().toISOString()
             };
             
             window.users[newUser.id] = newUser;
             currentUser = newUser;
             saveData();
+            
             showScreen('mainScreen');
             loadChats();
             updateUserInterface();
+            
+            // Автоматически создаем приветственное сообщение от BayRex
+            setTimeout(() => {
+                const welcomeMessage = {
+                    id: generateId(),
+                    text: `Привет, ${username}! Добро пожаловать в Epic Messenger! 🚀`,
+                    senderId: '000000000',
+                    receiverId: currentUser.id,
+                    timestamp: new Date().toLocaleTimeString(),
+                    date: new Date().toISOString(),
+                    senderName: 'BayRex'
+                };
+                
+                window.messages.push(welcomeMessage);
+                saveData();
+                
+                if (document.getElementById('chatScreen').classList.contains('active')) {
+                    loadMessages();
+                }
+            }, 1000);
         }
 
         // ВХОД
@@ -639,21 +880,29 @@
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value;
             
+            if (!email || !password) {
+                return alert('❌ Заполните email и пароль!');
+            }
+            
             for (const userId in window.users) {
                 const user = window.users[userId];
                 if (user.email === email && user.password === password) {
                     currentUser = user;
+                    currentUser.isOnline = true;
+                    currentUser.lastSeen = Date.now();
+                    window.users[currentUser.id] = currentUser;
                     saveData();
+                    
                     showScreen('mainScreen');
                     loadChats();
                     updateUserInterface();
                     return;
                 }
             }
-            alert('Неверный email или пароль!');
+            alert('❌ Неверный email или пароль!');
         }
 
-        // ОБНОВЛЯЕМ ИНТЕРФЕЙС - ИСПРАВЛЕНО!
+        // ОБНОВЛЯЕМ ИНТЕРФЕЙС
         function updateUserInterface() {
             if (!currentUser) return;
             
@@ -674,16 +923,20 @@
         
         function updateAvatarElement(elementId, user) {
             const element = document.getElementById(elementId);
+            if (!element) return;
+            
             if (user.avatarType === 'emoji') {
                 element.textContent = user.avatar;
                 element.style.backgroundImage = 'none';
+                element.style.backgroundColor = '#667eea';
             } else if (user.avatarType === 'custom') {
                 element.textContent = '';
                 element.style.backgroundImage = `url(${user.avatar})`;
+                element.style.backgroundColor = 'transparent';
             }
         }
 
-        // ЗАГРУЗКА АВАТАРОК С ВОЗМОЖНОСТЬЮ ЗАГРУЗКИ ИЗ ГАЛЕРЕИ
+        // ЗАГРУЗКА АВАТАРОК
         function loadAvatarOptions() {
             const avatars = [
                 '😀', '😎', '🤖', '👑', '🐱', '🚀', '⭐', '🎮',
@@ -691,6 +944,8 @@
             ];
             
             const container = document.getElementById('avatarOptions');
+            if (!container) return;
+            
             container.innerHTML = '';
             
             avatars.forEach(avatar => {
@@ -712,6 +967,11 @@
             document.getElementById('realAvatarUpload').addEventListener('change', function(e) {
                 const file = e.target.files[0];
                 if (file) {
+                    if (file.size > 2 * 1024 * 1024) {
+                        alert('❌ Файл слишком большой! Максимум 2MB.');
+                        return;
+                    }
+                    
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         currentUser.avatar = event.target.result;
@@ -719,7 +979,7 @@
                         window.users[currentUser.id] = currentUser;
                         saveData();
                         updateUserInterface();
-                        alert('Аватарка загружена!');
+                        alert('✅ Аватарка загружена!');
                     };
                     reader.readAsDataURL(file);
                 }
@@ -755,9 +1015,11 @@
             if (user.avatarType === 'emoji') {
                 viewAvatar.textContent = user.avatar;
                 viewAvatar.style.backgroundImage = 'none';
+                viewAvatar.style.backgroundColor = '#667eea';
             } else if (user.avatarType === 'custom') {
                 viewAvatar.textContent = '';
                 viewAvatar.style.backgroundImage = `url(${user.avatar})`;
+                viewAvatar.style.backgroundColor = 'transparent';
             }
             
             showScreen('userProfileScreen');
@@ -769,49 +1031,69 @@
             }
         }
 
-        // ОСТАЛЬНЫЕ ФУНКЦИИ (чаты, сообщения, поиск) остаются аналогичными предыдущей версии
-        // ... (код функций loadChats, openChat, sendMessage, searchUsers и т.д.)
-
         // ЗАГРУЗКА ЧАТОВ
         function loadChats() {
             const chatsList = document.getElementById('chatsList');
+            if (!chatsList) return;
+            
             chatsList.innerHTML = '<div style="padding: 20px; text-align: center; opacity: 0.7;">Загрузка чатов...</div>';
             
             setTimeout(() => {
                 chatsList.innerHTML = '';
                 let hasChats = false;
                 
+                // Показываем BayRex первым
+                const bayRex = window.users['000000000'];
+                if (bayRex && currentUser.id !== bayRex.id) {
+                    displayChatItem(bayRex);
+                    hasChats = true;
+                }
+                
+                // Остальные пользователи
                 for (const userId in window.users) {
-                    if (userId !== currentUser.id) {
-                        displayChatItem(window.users[userId]);
+                    const user = window.users[userId];
+                    if (userId !== currentUser.id && userId !== '000000000') {
+                        displayChatItem(user);
                         hasChats = true;
                     }
                 }
                 
                 if (!hasChats) {
-                    chatsList.innerHTML = '<div style="padding: 20px; text-align: center; opacity: 0.7;">Чатов пока нет</div>';
+                    chatsList.innerHTML = `
+                        <div style="padding: 40px; text-align: center; opacity: 0.7;">
+                            💬 Чатов пока нет<br>
+                            <small>Найди друзей через поиск!</small>
+                        </div>
+                    `;
                 }
             }, 500);
         }
 
         function displayChatItem(user) {
             const chatsList = document.getElementById('chatsList');
+            if (!chatsList) return;
+            
             const chatItem = document.createElement('div');
             chatItem.className = 'chat-item';
             
             const lastMessage = getLastMessage(user.id);
+            const unreadCount = getUnreadCount(user.id);
             
             chatItem.innerHTML = `
                 <div class="chat-avatar" style="${user.avatarType === 'emoji' ? '' : 'background-image: url(' + user.avatar + ')'}">
                     ${user.avatarType === 'emoji' ? user.avatar : ''}
                 </div>
-                <div style="flex: 1;">
-                    <div style="display: flex; align-items: center; gap: 5px;">
-                        <strong>${user.name || user.username}</strong>
-                        ${user.verified ? '<div class="verified-badge" style="position: static;">✓</div>' : ''}
+                <div class="chat-info">
+                    <div style="display: flex; align-items: center; gap: 5px; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 5px;">
+                            <strong>${user.name || user.username}</strong>
+                            ${user.verified ? '<div class="verified-badge" style="position: static;">✓</div>' : ''}
+                            ${user.isOnline ? '<span class="online-dot"></span>' : ''}
+                        </div>
+                        ${unreadCount > 0 ? `<span style="background: #667eea; color: white; border-radius: 10px; padding: 2px 6px; font-size: 12px;">${unreadCount}</span>` : ''}
                     </div>
                     <div class="user-handle">@${user.username}</div>
-                    <small>${lastMessage || 'Нет сообщений'}</small>
+                    <div class="chat-preview">${lastMessage || 'Нет сообщений'}</div>
                 </div>
             `;
             chatItem.onclick = () => openChat(user);
@@ -826,6 +1108,14 @@
             
             return chatMessages.length > 0 ? chatMessages[0].text : null;
         }
+        
+        function getUnreadCount(userId) {
+            return window.messages.filter(msg => 
+                msg.senderId === userId && 
+                msg.receiverId === currentUser.id &&
+                !msg.read
+            ).length;
+        }
 
         // ОТКРЫТИЕ ЧАТА
         function openChat(user) {
@@ -834,9 +1124,17 @@
             document.getElementById('chatUserHandle').textContent = '@' + user.username;
             document.getElementById('chatUserId').textContent = 'ID: ' + user.id;
             document.getElementById('chatUserVerified').style.display = user.verified ? 'flex' : 'none';
-            document.getElementById('messageInput').focus();
             
             updateAvatarElement('chatUserAvatar', user);
+            document.getElementById('messageInput').focus();
+            
+            // Помечаем сообщения как прочитанные
+            window.messages.forEach(msg => {
+                if (msg.senderId === user.id && msg.receiverId === currentUser.id) {
+                    msg.read = true;
+                }
+            });
+            saveData();
             
             showScreen('chatScreen');
             loadMessages();
@@ -861,18 +1159,27 @@
                 receiverId: currentChat.id,
                 timestamp: new Date().toLocaleTimeString(),
                 date: new Date().toISOString(),
-                senderName: currentUser.username
+                senderName: currentUser.username,
+                read: false
             };
             
             window.messages.push(message);
             saveData();
             displayMessage(message);
             input.value = '';
+            
+            // Прокрутка к новому сообщению
+            setTimeout(() => {
+                const container = document.getElementById('messagesContainer');
+                container.scrollTop = container.scrollHeight;
+            }, 100);
         }
 
         // ЗАГРУЗКА СООБЩЕНИЙ
         function loadMessages() {
             const container = document.getElementById('messagesContainer');
+            if (!container) return;
+            
             container.innerHTML = '';
             
             const chatMessages = window.messages.filter(msg => 
@@ -881,23 +1188,30 @@
             ).sort((a, b) => new Date(a.date) - new Date(b.date));
             
             if (chatMessages.length === 0) {
-                container.innerHTML = '<div style="text-align: center; padding: 40px; opacity: 0.5;">Нет сообщений</div>';
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 40px; opacity: 0.5;">
+                        💬 Начните общение!<br>
+                        <small>Напишите первое сообщение</small>
+                    </div>
+                `;
             } else {
                 chatMessages.forEach(displayMessage);
             }
+            
             container.scrollTop = container.scrollHeight;
         }
 
         function displayMessage(message) {
             const container = document.getElementById('messagesContainer');
+            if (!container) return;
+            
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${message.senderId === currentUser.id ? 'message-out' : 'message-in'}`;
             messageDiv.innerHTML = `
                 <div><strong>${message.senderName}:</strong> ${message.text}</div>
-                <div class="message-time">${message.timestamp}</div>
+                <div class="message-time">${message.timestamp} ${message.read && message.senderId === currentUser.id ? '✓' : ''}</div>
             `;
             container.appendChild(messageDiv);
-            container.scrollTop = container.scrollHeight;
         }
 
         // ПОИСК ПОЛЬЗОВАТЕЛЕЙ
@@ -910,9 +1224,15 @@
         function searchUsers() {
             const query = document.getElementById('searchInput').value.trim().toLowerCase();
             const results = document.getElementById('searchResults');
+            if (!results) return;
             
             if (!query) {
-                results.innerHTML = '<div style="padding: 20px; text-align: center; opacity: 0.7;">Введите юзернейм для поиска</div>';
+                results.innerHTML = `
+                    <div style="padding: 20px; text-align: center; opacity: 0.7;">
+                        🔍 Введите юзернейм для поиска<br>
+                        <small>Например: <strong>BayRex</strong></small>
+                    </div>
+                `;
                 return;
             }
             
@@ -924,17 +1244,23 @@
                 
                 for (const userId in window.users) {
                     const user = window.users[userId];
-                    if (userId !== currentUser.id && user.username.toLowerCase().includes(query)) {
+                    if (userId !== currentUser.id && 
+                        (user.username.toLowerCase().includes(query) || 
+                         (user.name && user.name.toLowerCase().includes(query)))) {
+                        
                         const userDiv = document.createElement('div');
                         userDiv.className = 'user-result';
                         userDiv.innerHTML = `
                             <div class="chat-avatar" style="${user.avatarType === 'emoji' ? '' : 'background-image: url(' + user.avatar + ')'}">
                                 ${user.avatarType === 'emoji' ? user.avatar : ''}
                             </div>
-                            <div>
-                                <div style="display: flex; align-items: center; gap: 5px;">
-                                    <strong>${user.name || user.username}</strong>
-                                    ${user.verified ? '<div class="verified-badge" style="position: static;">✓</div>' : ''}
+                            <div style="flex: 1;">
+                                <div style="display: flex; align-items: center; gap: 5px; justify-content: space-between;">
+                                    <div style="display: flex; align-items: center; gap: 5px;">
+                                        <strong>${user.name || user.username}</strong>
+                                        ${user.verified ? '<div class="verified-badge" style="position: static;">✓</div>' : ''}
+                                        ${user.isOnline ? '<span class="online-dot"></span>' : ''}
+                                    </div>
                                 </div>
                                 <div class="user-handle">@${user.username}</div>
                             </div>
@@ -946,7 +1272,12 @@
                 }
                 
                 if (!foundUsers) {
-                    results.innerHTML = '<div style="padding: 20px; text-align: center; opacity: 0.7;">Пользователи не найдены</div>';
+                    results.innerHTML = `
+                        <div style="padding: 20px; text-align: center; opacity: 0.7;">
+                            😕 Пользователи не найдены<br>
+                            <small>Попробуйте другой запрос</small>
+                        </div>
+                    `;
                 }
             }, 500);
         }
@@ -957,16 +1288,23 @@
             const name = document.getElementById('profileName').value.trim();
             
             if (!username) {
-                return alert('Введите юзернейм!');
+                return alert('❌ Введите юзернейм!');
             }
             
-            if (username === 'BayRex' && currentUser.id !== '000000000') {
-                return alert('Юзернейм BayRex зарезервирован!');
+            if (username.length < 3) {
+                return alert('❌ Юзернейм должен быть не менее 3 символов!');
             }
             
+            // ПРОВЕРКА НА BAYREX
+            if (username.toLowerCase() === 'bayrex' && currentUser.id !== '000000000') {
+                return alert('❌ Юзернейм BayRex зарезервирован!');
+            }
+            
+            // Проверяем, не занят ли юзернейм
             for (const userId in window.users) {
-                if (userId !== currentUser.id && window.users[userId].username === username) {
-                    return alert('Этот юзернейм уже занят!');
+                if (userId !== currentUser.id && 
+                    window.users[userId].username.toLowerCase() === username.toLowerCase()) {
+                    return alert('❌ Этот юзернейм уже занят!');
                 }
             }
             
@@ -976,7 +1314,7 @@
             window.users[currentUser.id] = currentUser;
             saveData();
             updateUserInterface();
-            alert('Профиль обновлен!');
+            alert('✅ Профиль обновлен!');
             showScreen('mainScreen');
         }
 
@@ -1001,7 +1339,11 @@
             document.querySelectorAll('.screen').forEach(screen => {
                 screen.classList.remove('active');
             });
-            document.getElementById(screenName).classList.add('active');
+            
+            const targetScreen = document.getElementById(screenName);
+            if (targetScreen) {
+                targetScreen.classList.add('active');
+            }
             
             if (screenName === 'mainScreen') {
                 loadChats();
@@ -1017,15 +1359,24 @@
                     });
                 }, 100);
             }
+            
+            // Скрываем меню при переходе на другой экран
+            document.getElementById('userMenu').style.display = 'none';
         }
 
         function generateId() {
-            return Math.random().toString(36).substr(2, 9);
+            return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
         }
 
         function logout() {
+            if (currentUser) {
+                currentUser.isOnline = false;
+                currentUser.lastSeen = Date.now();
+                window.users[currentUser.id] = currentUser;
+                saveData();
+            }
+            
             currentUser = null;
-            saveData();
             showScreen('authScreen');
         }
 
@@ -1038,11 +1389,24 @@
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
         }
 
+        // Скрываем меню при клике вне его
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.user-avatar') && !e.target.closest('.dropdown-menu')) {
                 document.getElementById('userMenu').style.display = 'none';
             }
         });
+
+        // Предотвращаем отправку формы при нажатии Enter
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.target.tagName === 'INPUT' && e.target.type !== 'text') {
+                e.preventDefault();
+            }
+        });
+
+        // Уведомление о загрузке
+        console.log('🚀 Epic Messenger loaded successfully!');
+        console.log('📧 BayRex account: bayrex@epic.com / bayrex123');
+        console.log('👥 Test account: test@test.com / 123456');
     </script>
 </body>
 </html>
